@@ -42,7 +42,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IEvaluate.cs" />
+    <Compile Include="IExpressionNode.cs" />
     <Compile Include="JcShellFormat.cs" />
+    <Compile Include="JcShellFormatException.cs" />
+    <Compile Include="Nodes\BaseNode.cs" />
+    <Compile Include="Nodes\BerLengthNode.cs" />
+    <Compile Include="Nodes\VariableNode.cs" />
+    <Compile Include="Nodes\LengthNode.cs" />
+    <Compile Include="Nodes\TextNode.cs" />
+    <Compile Include="Tokens.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
