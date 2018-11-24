@@ -7,7 +7,6 @@ namespace Watsug.JcShellFormat
     {
         private string _expr;
         private IDictionary<string, string> _dict;
-        private IExpressionNode _node;
 
         public JcShellFormat(string expr, IDictionary<string, string> dict = null)
         {
@@ -17,48 +16,50 @@ namespace Watsug.JcShellFormat
 
         public string Evaluate()
         {
-            _node = new TextNode(null);
+            IExpressionNode root = new TextNode(null);
+            IExpressionNode node = root;
+
             foreach (char c in _expr)
             {
                 IExpressionNode tmp = null;
                 switch (c)
                 {
                     case Tokens.VariableMark:
-                        tmp = new VariableNode(_node, _dict);
+                        tmp = new VariableNode(node, _dict);
                         break;
 
                     case Tokens.LengthMark:
-                        tmp = new LengthNode(_node);
+                        tmp = new LengthNode(node);
                         break;
 
                     case Tokens.LengthBerMark:
-                        tmp = new BerLengthNode(_node);
+                        tmp = new BerLengthNode(node);
                         break;
 
                     case Tokens.AsciiToHex:
-                        if (_node is AsciiToHexNode)
+                        if (node is AsciiToHexNode)
                         {
-                            _node = _node.Parent;
+                            node = node.Parent;
                         }
                         else
                         {
-                            tmp = new AsciiToHexNode(_node);
+                            tmp = new AsciiToHexNode(node);
                         }
                         break;
 
                     default:
-                        _node = _node.Push(c);
+                        node = node.Push(c);
                         break;
                 }
 
                 if (tmp != null)
                 {
-                    _node.Push(tmp);
-                    _node = tmp;
+                    node.Push(tmp);
+                    node = tmp;
                 }
             }
 
-            return _node.Evaluate();
+            return root.Evaluate();
         }
     }
 }

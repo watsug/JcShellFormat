@@ -15,7 +15,7 @@
         [Test]
         public void PositiveSimpleAsciiToHexWithLength()
         {
-            JcShellFormat jcs = new JcShellFormat("01#(|ab|#{FEFF})");
+            JcShellFormat jcs = new JcShellFormat("01#(|ab|#(FEFF))");
             Assert.AreEqual("0105616202FEFF", jcs.Evaluate());
         }
     }
