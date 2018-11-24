@@ -20,22 +20,41 @@ namespace Watsug.JcShellFormat
             _node = new TextNode(null);
             foreach (char c in _expr)
             {
+                IExpressionNode tmp = null;
                 switch (c)
                 {
                     case Tokens.VariableMark:
-                        _node = new VariableNode(_node, _dict);
+                        tmp = new VariableNode(_node, _dict);
                         break;
 
                     case Tokens.LengthMark:
-                        _node = new LengthNode(_node);
+                        tmp = new LengthNode(_node);
                         break;
+
                     case Tokens.LengthBerMark:
-                        _node = new BerLengthNode(_node);
+                        tmp = new BerLengthNode(_node);
+                        break;
+
+                    case Tokens.AsciiToHex:
+                        if (_node is AsciiToHexNode)
+                        {
+                            _node = _node.Parent;
+                        }
+                        else
+                        {
+                            tmp = new AsciiToHexNode(_node);
+                        }
                         break;
 
                     default:
                         _node = _node.Push(c);
                         break;
+                }
+
+                if (tmp != null)
+                {
+                    _node.Push(tmp);
+                    _node = tmp;
                 }
             }
 

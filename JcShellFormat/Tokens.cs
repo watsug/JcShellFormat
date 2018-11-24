@@ -9,5 +9,6 @@
         public const char LengthBerMark = '%';
         public const char LengthStart = '(';
         public const char LengthEnd = ')';
+        public const char AsciiToHex = '|';
     }
 }

@@ -6,14 +6,14 @@ namespace Watsug.JcShellFormat.Nodes
     public abstract class BaseNode : IExpressionNode
     {
         protected StringBuilder _buff = new StringBuilder();
-        protected IExpressionNode _parent;
         protected List<IExpressionNode> _children = new List<IExpressionNode>();
 
         protected BaseNode(IExpressionNode parent)
         {
-            _parent = parent;
-            _parent?.Push(this);
+            Parent = parent;
         }
+
+        public IExpressionNode Parent { get; protected set; }
 
         public virtual IExpressionNode Push(char c)
         {
@@ -25,9 +25,10 @@ namespace Watsug.JcShellFormat.Nodes
         {
             if (_buff.Length > 0)
             {
-                var textNode = new TextNode(this, _buff.ToString());
-                _children.Add(textNode);
+                var tmpStr = _buff.ToString();
                 _buff.Clear();
+                var textNode = new TextNode(this, tmpStr);
+                _children.Add(textNode);
             }
             _children.Add(exprNode);
             return this;

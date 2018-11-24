@@ -45,8 +45,10 @@
     <Compile Include="IExpressionNode.cs" />
     <Compile Include="JcShellFormat.cs" />
     <Compile Include="JcShellFormatException.cs" />
+    <Compile Include="Nodes\AsciiToHexNode.cs" />
     <Compile Include="Nodes\BaseNode.cs" />
     <Compile Include="Nodes\BerLengthNode.cs" />
+    <Compile Include="Nodes\LengthBaseNode.cs" />
     <Compile Include="Nodes\VariableNode.cs" />
     <Compile Include="Nodes\LengthNode.cs" />
     <Compile Include="Nodes\TextNode.cs" />

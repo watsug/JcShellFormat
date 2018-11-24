@@ -23,7 +23,7 @@
         [Test]
         public void PositiveBerLengthCalculate_2bytes()
         {
-            string data = new string('1',0x81);
+            string data = new string('1',0x81 * 2);
             JcShellFormat jcs = new JcShellFormat($"%({data})");
             Assert.AreEqual($"8181{data}", jcs.Evaluate());
         }

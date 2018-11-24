@@ -27,7 +27,7 @@ namespace Watsug.JcShellFormat.Nodes
             if (Tokens.VariableEnd == c)
             {
                 // the end of this node
-                return _parent;
+                return Parent;
             }
 
             return base.Push(c);
