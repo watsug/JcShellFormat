@@ -17,37 +17,23 @@ namespace Watsug.JcShellFormat
 
         public string Evaluate()
         {
+            _node = new TextNode(null);
             foreach (char c in _expr)
             {
                 switch (c)
                 {
                     case Tokens.VariableMark:
-                        _node = new VariableNode();
+                        _node = new VariableNode(_node, _dict);
                         break;
 
                     case Tokens.LengthMark:
-                        _node = new LengthNode();
+                        _node = new LengthNode(_node);
                         break;
                     case Tokens.LengthBerMark:
-                        _node = new BerLengthNode();
-                        break;
-
-                    case Tokens.VariableStart:
-                    case Tokens.VariableEnd:
-                    case Tokens.LengthStart:
-                    case Tokens.LengthEnd:
-                        if (_node == null)
-                        {
-                            throw new JcShellFormatException($"Unexpected character found: '{c}'!");
-                        }
-                        _node = _node.Push(c);
+                        _node = new BerLengthNode(_node);
                         break;
 
                     default:
-                        if (_node == null)
-                        {
-                            _node = new TextNode();
-                        }
                         _node = _node.Push(c);
                         break;
                 }

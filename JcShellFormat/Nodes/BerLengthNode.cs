@@ -2,14 +2,13 @@
 {
     public class BerLengthNode : BaseNode
     {
-        public override string Evaluate()
+        public BerLengthNode(IExpressionNode parent) : base(parent)
         {
-            throw new System.NotImplementedException();
         }
 
-        public override IExpressionNode Push(IExpressionNode exprNode)
+        public override string Evaluate()
         {
-            throw new System.NotImplementedException();
+            throw new System.NotImplementedException(nameof(Evaluate));
         }
     }
 }

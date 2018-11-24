@@ -2,14 +2,13 @@
 {
     public class TextNode : BaseNode
     {
-        public override string Evaluate()
+        public TextNode(IExpressionNode parent) : base(parent)
         {
-            throw new System.NotImplementedException();
         }
 
-        public override IExpressionNode Push(IExpressionNode exprNode)
+        public TextNode(IExpressionNode parent, string buff) : base(parent)
         {
-            throw new System.NotImplementedException();
+            _buff.Append(buff);
         }
     }
 }
