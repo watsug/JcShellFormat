@@ -60,5 +60,8 @@
       <Version>1.6.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="JcShellFormat.nuspec" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
