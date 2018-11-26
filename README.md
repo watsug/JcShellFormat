@@ -5,6 +5,9 @@ This is a JCShell like formatting library. More information will be available la
 The basic documentation will be available soon
 
 # Releases
+** 2019.11.26 v0.0.2**
+* added support for #{var;hX} encoding
+
 ** 2019.11.26 v0.0.1**
 * Initial release
 
