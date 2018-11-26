@@ -1,5 +1,5 @@
-﻿using SimpleBase;
-using System.Text;
+﻿using System.Text;
+using Watsug.JcShellFormat.Util;
 
 namespace Watsug.JcShellFormat.Nodes
 {
@@ -12,7 +12,7 @@ namespace Watsug.JcShellFormat.Nodes
         public override string Evaluate()
         {
             var tmp = base.Evaluate();
-            return Base16.EncodeUpper(Encoding.ASCII.GetBytes(tmp));
+            return HexEncoding.BinToHex(Encoding.ASCII.GetBytes(tmp));
         }
     }
 }

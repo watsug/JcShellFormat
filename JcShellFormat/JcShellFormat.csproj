@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Watsug.JcShellFormat</RootNamespace>
     <AssemblyName>Watsug.JcShellFormat</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,14 +55,12 @@
     <Compile Include="Nodes\TextNode.cs" />
     <Compile Include="Tokens.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\HexEncoding.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="SimpleBase">
-      <Version>1.6.1</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="JcShellFormat.nuspec" />
+    <None Include="JcShellFormat.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

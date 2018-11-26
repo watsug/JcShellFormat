@@ -3,23 +3,23 @@
   <metadata>    
     <id>Watsug.JcShellFormat</id>
     <version>0.0.1</version>
-    <title>JCShell formatting like library</title>
+    <title>JCShell like formatting library</title>
     <authors>Adam Augustyn</authors>
     <owners>Watsug</owners>
-    <licenseUrl>../licence.txt</licenseUrl>
+    <licenseUrl>https://github.com/watsug/JcShellFormat/blob/master/licence.txt</licenseUrl>
     <projectUrl>https://github.com/watsug/JcShellFormat</projectUrl>
-    <iconUrl>../frog.png</iconUrl>
+    <iconUrl>https://github.com/watsug/JcShellFormat/blob/master/frog.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>JcShellFormat provides functionality of formatting binary data in a way as JCShell does it</description>
     <releaseNotes>Initial release</releaseNotes>
     <copyright>Copyright 2018 Adam Augustyn</copyright>
     <tags>JCShell formatting</tags>
     <dependencies>
-      <dependency id="SimpleBase" version="1.6.1"  />
     </dependencies>
     <summary></summary>
   </metadata>
   <files>
-    <file src="readme.md" target="" />
+    <file src=".\bin\Release\Watsug.JcShellFormat.dll" target="lib\net461" />
+    <file src="..\readme.md" target="" />
   </files>
 </package>
