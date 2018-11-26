@@ -2,7 +2,7 @@
 <package  xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>    
     <id>Watsug.JcShellFormat</id>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <title>JCShell like formatting library</title>
     <authors>Adam Augustyn</authors>
     <owners>Watsug</owners>
