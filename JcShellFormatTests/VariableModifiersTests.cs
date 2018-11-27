@@ -1,4 +1,6 @@
-﻿namespace Watsug.JcShellFormatTests
+﻿using System;
+
+namespace Watsug.JcShellFormatTests
 {
     using NUnit.Framework;
     using JcShellFormat;
@@ -44,10 +46,45 @@
         }
 
         [Test]
-        public void PositiveSimpeLowercaseTest()
+        public void PositiveLowercaseTest()
         {
             var jcs = new JcShellFormat("${x1;lc}", new Dictionary<string, string> { { "x1", "WaTsUg" } });
             Assert.AreEqual("watsug", jcs.Evaluate());
+        }
+
+        [Test]
+        public void PositiveSubstringTest()
+        {
+            var jcs = new JcShellFormat("${text;s5,7}", new Dictionary<string, string> { { "text", "this is my test" } });
+            Assert.AreEqual("is my t", jcs.Evaluate());
+        }
+
+        [Test]
+        public void PositiveSubstringAtTheEndTest()
+        {
+            var jcs = new JcShellFormat("${text;s15}", new Dictionary<string, string> { { "text", "this is my test" } });
+            Assert.AreEqual("", jcs.Evaluate());
+        }
+
+        [Test]
+        public void PositiveSubstringAtTheEndNegativeLengthTest()
+        {
+            var jcs = new JcShellFormat("${text;s15,-1}", new Dictionary<string, string> { { "text", "this is my test" } });
+            Assert.AreEqual("", jcs.Evaluate());
+        }
+
+        [Test]
+        public void NegativeSubstringOneCharAfterTheEndTest()
+        {
+            var jcs = new JcShellFormat("${text;s16}", new Dictionary<string, string> { { "text", "this is my test" } });
+            Assert.Throws<ArgumentOutOfRangeException>(() => jcs.Evaluate());
+        }
+
+        [Test]
+        public void NegativeSubstringAtTheEndWithOffsetTest()
+        {
+            var jcs = new JcShellFormat("${text;s15,1}", new Dictionary<string, string> { { "text", "this is my test" } });
+            Assert.Throws<ArgumentOutOfRangeException>(() => jcs.Evaluate());
         }
     }
 }
