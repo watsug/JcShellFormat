@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Watsug.JcShellFormat.Core;
+using Watsug.JcShellFormat.Modifiers;
 
 namespace Watsug.JcShellFormat.Nodes
 {
     public class VariableNode : BaseNode
     {
         public const char Separator = ';';
-        public const string IntegerHexFormatting = "h";
         private IDictionary<string, string> _dict;
 
         public VariableNode(IExpressionNode parent, IDictionary<string, string> dict) : base(parent)
@@ -49,38 +49,21 @@ namespace Watsug.JcShellFormat.Nodes
                 }
 
                 string data = split[0].Trim();
-
                 if (_dict.ContainsKey(data))
                 {
                     data = _dict[data];
                 }
 
                 string format = split[1].Trim();
-                if (format.StartsWith(IntegerHexFormatting))
+                foreach (var md in modifiers)
                 {
-                    int length;
-                    if (int.TryParse(format.Substring(1), out length))
+                    IVariableModifier vm = md.CreateInstance(format);
+                    if (vm != null)
                     {
-                        long val;
-                        if (Int64.TryParse(data, out val))
-                        {
-                            string outFormat = "X" + length.ToString();
-                            return val.ToString(outFormat);
-                        }
-                        else
-                        {
-                            throw new JcShellFormatException($"Unable to parse numeric value: {data}!");
-                        }
-                    }
-                    else
-                    {
-                        throw new JcShellFormatException($"Unable to parse integer/HEX length format: {format}!");
+                        return vm.Transform(data);
                     }
                 }
-                else
-                {
-                    throw new JcShellFormatException($"Unsupported format: {format}!");
-                }
+                throw new JcShellFormatException($"Unsupported format: {format}!");
             }
             else
             {
@@ -90,6 +73,20 @@ namespace Watsug.JcShellFormat.Nodes
                 }
                 return _dict[tmp];
             }
+        }
+
+        private static List<ModifierDescription> modifiers;
+
+        static VariableNode()
+        {
+            modifiers = new List<ModifierDescription>
+            {
+                new MatchModifierDescription(VariableModifiers.VariableLength, typeof(VariableLengthModifier)),
+                new StartsWithModifierDescription(VariableModifiers.VariableToHex, typeof(VariableToHexModifier)),
+                new StartsWithModifierDescription(VariableModifiers.Substring, typeof(SubstringModifier)),
+                new MatchModifierDescription(VariableModifiers.Lowercase, typeof(LowercaseModifier)),
+                new MatchModifierDescription(VariableModifiers.Uppercase, typeof(UppercaseModifier))
+            };
         }
     }
 }

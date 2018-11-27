@@ -42,10 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\MatchModifierDescription.cs" />
+    <Compile Include="Core\StartsWithModifierDescription.cs" />
     <Compile Include="IEvaluate.cs" />
     <Compile Include="IExpressionNode.cs" />
+    <Compile Include="Core\IVariableModifier.cs" />
     <Compile Include="JcShellFormat.cs" />
     <Compile Include="JcShellFormatException.cs" />
+    <Compile Include="Core\ModifierDescription.cs" />
+    <Compile Include="Modifiers\BaseModifier.cs" />
+    <Compile Include="Modifiers\LowercaseModifier.cs" />
+    <Compile Include="Modifiers\SubstringModifier.cs" />
+    <Compile Include="Modifiers\UppercaseModifier.cs" />
+    <Compile Include="Modifiers\VariableToHexModifier.cs" />
+    <Compile Include="VariableModifiers.cs" />
+    <Compile Include="Modifiers\VariableLengthModifier.cs" />
     <Compile Include="Nodes\AsciiToHexNode.cs" />
     <Compile Include="Nodes\BaseNode.cs" />
     <Compile Include="Nodes\BerLengthNode.cs" />
@@ -62,5 +73,6 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

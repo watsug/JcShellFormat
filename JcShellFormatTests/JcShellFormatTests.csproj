@@ -46,6 +46,7 @@
     <Compile Include="DictionaryTests.cs" />
     <Compile Include="OperatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VariableModifiersTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NUnit">
