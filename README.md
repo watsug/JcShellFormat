@@ -53,4 +53,4 @@ Variables are resolved Based on the provided dictionary, eg.:
 * Initial release
 
 # License information
-Available in [license.txt](license.txt)
+Available in [licence.txt](licence.txt)
