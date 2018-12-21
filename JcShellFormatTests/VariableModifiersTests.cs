@@ -19,15 +19,21 @@ namespace Watsug.JcShellFormatTests
         [Test]
         public void PositiveH4Test()
         {
-            var jcs = new JcShellFormat("FF${21;h4}FF", new Dictionary<string, string> { { "x1", "21" } });
+            var jcs = new JcShellFormat("FF${x1;h4}FF", new Dictionary<string, string> { { "x1", "21" } });
+            Assert.AreEqual("FF0015FF", jcs.Evaluate());
+        }
+
+        [Test]
+        public void PositiveH4NoVarTest()
+        {
+            var jcs = new JcShellFormat("FF${21;h4}FF", JcShellFormat.Options.KeyAsValueIfNotResolved);
             Assert.AreEqual("FF0015FF", jcs.Evaluate());
         }
 
         [Test]
         public void PositiveLengthNoVarTest()
         {
-            // TODO: still not decided how to support such case...?
-            var jcs = new JcShellFormat("${abc;l}");
+            var jcs = new JcShellFormat("${abc;l}", JcShellFormat.Options.KeyAsValueIfNotResolved);
             Assert.AreEqual("3", jcs.Evaluate());
         }
 

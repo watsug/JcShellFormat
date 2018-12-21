@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Watsug.JcShellFormat.Nodes;
 
 namespace Watsug.JcShellFormat
@@ -6,12 +7,37 @@ namespace Watsug.JcShellFormat
     public class JcShellFormat : IEvaluate
     {
         private string _expr;
-        private IDictionary<string, string> _dict;
+        private Func<string, string> _resolver;
+        private Options _options = Options.None;
 
-        public JcShellFormat(string expr, IDictionary<string, string> dict = null)
+        [Flags]
+        public enum Options
+        {
+            None = 0,
+            KeyAsValueIfNotResolved = 1
+        }
+
+        public JcShellFormat(string expr, Options options = Options.None)
         {
             _expr = expr;
-            _dict = dict;
+            _options = options;
+        }
+
+        public JcShellFormat(string expr, IDictionary<string, string> dict, Options options = Options.None)
+        {
+            _expr = expr;
+            if (dict != null)
+            {
+                _resolver = (v) => dict[v];
+            }
+            _options = options;
+        }
+
+        public JcShellFormat(string expr, Func<string, string> resolver, Options options = Options.None)
+        {
+            _expr = expr;
+            _resolver = resolver;
+            _options = options;
         }
 
         public string Evaluate()
@@ -25,7 +51,7 @@ namespace Watsug.JcShellFormat
                 switch (c)
                 {
                     case Tokens.VariableMark:
-                        tmp = new VariableNode(node, _dict);
+                        tmp = new VariableNode(node, Resolve);
                         break;
 
                     case Tokens.LengthMark:
@@ -52,14 +78,23 @@ namespace Watsug.JcShellFormat
                         break;
                 }
 
-                if (tmp != null)
-                {
-                    node.Push(tmp);
-                    node = tmp;
-                }
+                if (tmp == null) continue;
+                node.Push(tmp);
+                node = tmp;
             }
 
             return root.Evaluate();
+        }
+
+        private string Resolve(string key)
+        {
+            var ret = InternalResolve(key);
+            return ret ?? (_options == Options.KeyAsValueIfNotResolved ? key : null);
+        }
+
+        private string InternalResolve(string key)
+        {
+            return _resolver?.Invoke(key);
         }
     }
 }

@@ -8,15 +8,11 @@ namespace Watsug.JcShellFormat.Nodes
     public class VariableNode : BaseNode
     {
         public const char Separator = ';';
-        private IDictionary<string, string> _dict;
+        private Func<string, string> _resolver;
 
-        public VariableNode(IExpressionNode parent, IDictionary<string, string> dict) : base(parent)
+        public VariableNode(IExpressionNode parent, Func<string, string> resolver) : base(parent)
         {
-            if (dict == null)
-            {
-                throw new JcShellFormatException("No dictionary provided!");
-            }
-            _dict = dict;
+            _resolver = resolver;
         }
 
         public override IExpressionNode Push(char c)
@@ -48,10 +44,11 @@ namespace Watsug.JcShellFormat.Nodes
                     throw new JcShellFormatException($"Unsupported format, ';' character should be included only once: {tmp}!");
                 }
 
-                string data = split[0].Trim();
-                if (_dict.ContainsKey(data))
+                var tmpData = split[0].Trim();
+                var data = _resolver(tmpData);
+                if (data == null)
                 {
-                    data = _dict[data];
+                    throw new JcShellFormatException($"Unable to resolve the key value: {tmpData}!");
                 }
 
                 string format = split[1].Trim();
@@ -65,14 +62,14 @@ namespace Watsug.JcShellFormat.Nodes
                 }
                 throw new JcShellFormatException($"Unsupported format: {format}!");
             }
-            else
+
+            var ret = _resolver(tmp);
+            if (ret == null)
             {
-                if (!_dict.ContainsKey(tmp))
-                {
-                    throw new JcShellFormatException($"Variable not found in the dictionary: {tmp}!");
-                }
-                return _dict[tmp];
+                throw new JcShellFormatException($"Variable not found in the dictionary: {tmp}!");
             }
+
+            return ret;
         }
 
         private static List<ModifierDescription> modifiers;
