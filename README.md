@@ -37,6 +37,7 @@ Variables are resolved Based on the provided dictionary, eg.:
 ```
 
 ## Integer to hex
+It uses ';hn' modifier, where n the length of output hex format
 ```csharp
             Dictionary<string, string> dict = new Dictionary<string, string>()
             {
@@ -47,9 +48,41 @@ Variables are resolved Based on the provided dictionary, eg.:
             string tmp = format.Evaluate(); // "000F"
 ```
 
+## Upper-case
+It uses ';uc' modifier to provide the data as upper-case
+```csharp
+            var jcs = new JcShellFormat("${x1;uc}", new Dictionary<string, string> { { "x1", "WaTsUg" } });
+            string tmp = format.Evaluate(); // "WATSUG"
+```
+
+## Lower-case
+It uses ';lc' modifier to provide the data as lower-case
+```csharp
+            var jcs = new JcShellFormat("${x1;lc}", new Dictionary<string, string> { { "x1", "WaTsUg" } });
+            string tmp = format.Evaluate(); // "watsug"
+```
+
+## Length of the data
+It uses ';l' modifier to provide the length of the data
+```csharp
+            var format = new JcShellFormat("${xyz;l}", JcShellFormat.Options.KeyAsValueIfNotResolved);
+            string tmp = format.Evaluate(); // "3"
+```
+
+## Substring
+It uses ';sx(,y)' modifier, where x and y (optional) are indices within the input string
+```csharp
+            var jcs = new JcShellFormat("${text;s5,7}", new Dictionary<string, string> { { "text", "this is my test" } });
+            string tmp = format.Evaluate(); // "is my t"
+```
+
 
 # Releases
-**2019.11.26 v0.0.4**
+**2018.12.21 v1.0.7**
+* resolver function instead of a dictionary has been added
+* option to treat unresolvable data as a value
+
+**2018.11.26 v0.0.4**
 * Initial release
 
 # License information
