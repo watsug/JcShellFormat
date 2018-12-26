@@ -17,13 +17,6 @@ namespace Watsug.JcShellFormat.Nodes
 
         public override IExpressionNode Push(char c)
         {
-            if (Tokens.VariableStart == c)
-            {
-                // skip start node
-                // TODO: check if it is first token!
-                return this;
-            }
-
             if (Tokens.VariableEnd == c)
             {
                 // the end of this node

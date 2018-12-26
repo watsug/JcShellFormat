@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 using Watsug.JcShellFormat.Nodes;
 
 namespace Watsug.JcShellFormat
 {
     public class JcShellFormat : IEvaluate
     {
-        private string _expr;
-        private Func<string, string> _resolver;
-        private Options _options = Options.None;
+        private readonly string _expr;
+        private readonly Func<string, string> _resolver;
+        private readonly Options _options = Options.None;
 
         [Flags]
         public enum Options
         {
-            None = 0,
-            KeyAsValueIfNotResolved = 1
+            None = 0x00,
+            KeyAsValueIfNotResolved = 0x01,
+            LegacyVariables = 0x02
         }
 
         public JcShellFormat(string expr, Options options = Options.None)
@@ -28,7 +31,14 @@ namespace Watsug.JcShellFormat
             _expr = expr;
             if (dict != null)
             {
-                _resolver = (v) => dict[v];
+                _resolver = (v) =>
+                {
+                    if (!dict.ContainsKey(v))
+                    {
+                        throw new JcShellFormatException($"Key not found: {v}!");
+                    }
+                    return dict[v];
+                };
             }
             _options = options;
         }
@@ -45,12 +55,34 @@ namespace Watsug.JcShellFormat
             IExpressionNode root = new TextNode(null);
             IExpressionNode node = root;
 
-            foreach (char c in _expr)
+            for(int i=0; i < _expr.Length; i++)
             {
                 IExpressionNode tmp = null;
-                switch (c)
+
+                switch (_expr[i])
                 {
                     case Tokens.VariableMark:
+                    {
+                        // the next character exists, and is '{'
+                        if (i + 1 < _expr.Length && _expr[i + 1] == Tokens.VariableStart)
+                        {
+                            // skip '{' - it belongs to '$'
+                            tmp = new VariableNode(node, Resolve);
+                            i++;
+                        }
+                        else
+                        {
+                            node = node.Push(_expr[i]);
+                        }
+
+                    } break;
+
+                    case Tokens.VariableStart:
+                        if (!_options.HasFlag(Options.LegacyVariables))
+                        {
+                            throw new JcShellFormatException("Legacy variables format is not enabled!");
+                        }
+
                         tmp = new VariableNode(node, Resolve);
                         break;
 
@@ -74,7 +106,7 @@ namespace Watsug.JcShellFormat
                         break;
 
                     default:
-                        node = node.Push(c);
+                        node = node.Push(_expr[i]);
                         break;
                 }
 

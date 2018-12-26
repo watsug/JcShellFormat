@@ -78,6 +78,9 @@ It uses ';sx(,y)' modifier, where x and y (optional) are indices within the inpu
 
 
 # Releases
+**2018.12.26 v1.0.8**
+* 'LegacyVariables' option added - variables with '{name}' instead of '${name}' form
+
 **2018.12.21 v1.0.7**
 * resolver function instead of a dictionary has been added
 * option to treat unresolvable data as a value

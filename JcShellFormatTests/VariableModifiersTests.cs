@@ -1,10 +1,9 @@
-﻿using System;
-
-namespace Watsug.JcShellFormatTests
+﻿namespace Watsug.JcShellFormatTests
 {
     using NUnit.Framework;
     using JcShellFormat;
     using System.Collections.Generic;
+    using System;
 
     [TestFixture]
     public class VariableModifiersTests
